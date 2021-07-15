@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity // セキュリティ用クラス
 @Configuration // Bean
@@ -17,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean // @Configurationに@Beanを登録
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // 推奨のエンコーダー
     }
 
     /** セキュリティの対象外を設定 */
@@ -36,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll() // 直リンクOK
                 .antMatchers("/user/signup").permitAll() // 直リンクOK
+                .antMatchers("/admin").hasAuthority("ROLE_ADMIN") // 権限による認可
                 .anyRequest().authenticated(); // それ以外直リンク不可
 
         // ログイン処理
@@ -47,7 +49,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/user/list", true); // 成功後遷移先
 
+        // ログアウト処理
+        http.logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  // getでもログアウトする場合必要
+                .logoutUrl("/logout") // postでログアウトするパス
+                .logoutSuccessUrl("/login?logout"); // 成功時遷移先
+
         http.csrf().disable(); // CSRF設定を無効化
+
     }
 
     /** 認証の設定 */

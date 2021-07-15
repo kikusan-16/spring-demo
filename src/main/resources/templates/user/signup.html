@@ -20,7 +20,8 @@
 <body class="bg-light">
 <!-- ${}でmodel変数を使用 -->
 <!-- th:object タグ内で *{} を使うとクラス名を省略できる -->
-<form id="signup-form" method="post" action="/user/signup" class="form-signup" th:object="${signupForm}">
+<!-- th:action 自動でCSRFトークンを追加してくれる -->
+<form id="signup-form" method="post" th:action="/user/signup" class="form-signup" th:object="${signupForm}">
     <h1 class="text-center" th:text="#{user.signup.title}"></h1>
     <!-- ユーザーID -->
     <div class="form-group">
