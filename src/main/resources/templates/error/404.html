@@ -1,0 +1,17 @@
+<!-- HTTPステータスコード専用エラー画面はerror/[code].html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf8"/>
+  <title>Error</title>
+</head>
+<body>
+  <!-- status=HTTPエラーコード error=概要 message=エラーメッセージ -->
+  <h1 th:text="${status}+' '+${error}"></h1>
+  <p>404 エラー専用ページ</p>
+  <p>ログイン画面に戻ってください</p>
+  <form method="post" th:action="@{/logout}">
+    <button class="btn btn-link" type="submit">ログイン画面に戻る</button>
+  </form>
+</body>
+</html>

@@ -19,6 +19,11 @@
 <body class="bg-light">
 <div class="text-center">
     <form method="post" th:action="@{/login}" class="form-login">
+    <!-- セッションにセキュリティのエラーがあれば表示する -->
+        <p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']}!=null"
+           th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"class="text-danger">
+            ログインエラーメッセージ
+        </p>
         <h2>ログイン</h2><!-- ユーザーID -->
         <div class="form-group">
             <label for="userId" class="sr-only">userId</label>

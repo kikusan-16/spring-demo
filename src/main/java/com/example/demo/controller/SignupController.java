@@ -5,15 +5,15 @@ import com.example.demo.form.ValidGroupOrder;
 import com.example.demo.service.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.Locale;
 import java.util.Map;
 
@@ -49,4 +49,21 @@ public class SignupController {
         // redirect PRGパターン リロードでのPost送信を避ける。
         return "redirect:/login";
     }
+
+    /**
+     * クラス毎例外処理
+     * @ExceptionHandler でこのクラスに指定エクセプションがでたときの処理を記述できる
+     */
+    @ExceptionHandler(DataAccessException.class)
+    public String exceptionHandler(Exception e, Model model) {
+        // 空文字をセット
+        model.addAttribute("error","");
+        // メッセージをModelに登録
+        model.addAttribute("message","SignupControllerでDataAccessExceptionが発生しました");
+        // HTTPのエラーコード（500）をModelに登録
+        model.addAttribute("status", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return "error";
+    }
+
 }
