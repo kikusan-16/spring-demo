@@ -71,11 +71,11 @@ public class UserServiceImpl implements UserService {
         repository.deleteById(userId);
     }
 
-//    /** ログインユーザー取得 */
-//    @Override
-//    public MUser getLoginUser(String userId) {
-//        Optional<MUser> option = repository.findById(userId);
-//        MUser user = option.orElse(null);
-//        return user;
-//    }
+    /** ログインユーザー情報取得 */
+    @Override
+    public MUser getLoginUser(String userId) {
+        Optional<MUser> option = repository.findById(userId);
+        MUser user = option.orElse(null);
+        return user;
+    }
 }

@@ -43,12 +43,11 @@
             </tr>
             <tr>
                 <th>性別</th>
-                <td th:text="*{gender==1?'男性':'女性'}"></td>
+                <td th:text="*{gender == 1 ? '男性': '女性'}"></td>
             </tr>
             <tr>
                 <th>部署名</th>
                 <td><span th:if="*{department!=null}"
-                          th:text="*{department.departmentName}"
                           th:text="*{department.departmentName}"></span>
                 </td>
             </tr>

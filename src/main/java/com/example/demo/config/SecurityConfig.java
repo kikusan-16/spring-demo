@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -16,7 +18,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // webSecurityConfigurerAdapterのメソッドをオーバーライドして設定する
 
-    @Bean // @Configurationに@Beanを登録
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean // @Configurationで@Beanを登録
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // 推奨のエンコーダー
     }
@@ -66,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // SpringSecurityはパスワード暗号化しないと動作しない
         PasswordEncoder encoder = passwordEncoder();
 
+        /**
         // インメモリ認証
         auth.inMemoryAuthentication()
                 .withUser("user")
@@ -75,6 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin")
                     .password(encoder.encode("admin"))
                     .roles("ADMIN");
+        */
 
+        // ユーザーデータ認証
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(encoder);
     }
 }
