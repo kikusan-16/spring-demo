@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.form.SignupForm;
 import com.example.demo.form.ValidGroupOrder;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserApplicationService;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -23,6 +25,8 @@ import java.util.Map;
 @Slf4j // lombokで log static変数追加
 public class SignupController {
     private final UserApplicationService userApplicationService;
+
+    private final UserService userService;
 
     @GetMapping("/signup")
     public String getSignup(Model model, Locale locale,

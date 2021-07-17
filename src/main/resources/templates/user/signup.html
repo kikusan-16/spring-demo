@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF8"></meta>
+    <meta charset="UTF-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--
         @{/webjars/...} でmavenでとってきたwebjarsの階層とおりのファイルをインポートできる
@@ -29,7 +29,7 @@
         <!-- th:field でコントローラ引数のFormクラスにバインドできる -->
         <!-- 生成されるHTMLは id="userId" name="userId" -->
         <!-- th:errorclass は th:field が同じタグ内にあると有効。そのフィールドでエラーがあるとクラスを追加する -->
-        <input id="userId" type="text" class="form-control"
+        <input type="text" class="form-control"
                th:field="*{userId}" th:errorclass="is-invalid" />
         <!-- th:errors はそのフィールドでエラーがあるとメッセージをタグに表示する-->
         <div class="invalid-feedback" th:errors="*{userId}"></div>
@@ -37,28 +37,28 @@
     <!-- パスワード -->
     <div class="form-group">
         <label for="password" th:text="#{password}"></label>
-        <input id="password" type="text" class="form-control"
+        <input type="text" class="form-control"
                th:field="*{password}" th:errorclass="is-invalid" />
         <div class="invalid-feedback" th:errors="*{password}"></div>
     </div>
     <!--ユーザー名-->
     <div class="form-group">
         <label for="userName" th:text="#{userName}"></label>
-        <input id="userName" type="text" class="form-control"
+        <input type="text" class="form-control"
                th:field="*{userName}" th:errorclass="is-invalid" />
         <div class="invalid-feedback" th:errors="*{userName}"></div>
     </div>
     <!--誕生日-->
     <div class="form-group">
         <label for="birthday" th:text="#{birthday}"></label>
-        <input id="birthday" type="text" class="form-control"
+        <input type="text" class="form-control"
                th:field="*{birthday}" th:errorclass="is-invalid" />
         <div class="invalid-feedback" th:errors="*{birthday}"></div>
     </div>
     <!--年齢-->
     <div class="form-group">
         <label for="age" th:text="#{age}"></label>
-        <input id="age"type="text" class="form-control"
+        <input type="text" class="form-control"
                th:field="*{age}" th:errorclass="is-invalid" />
         <div class="invalid-feedback" th:errors="*{age}"></div>
     </div>
