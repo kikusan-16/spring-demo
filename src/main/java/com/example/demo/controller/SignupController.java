@@ -69,6 +69,7 @@ public class SignupController {
     /**
      * クラス毎例外処理
      * @ExceptionHandler でこのクラスに指定エクセプションがでたときの処理を記述できる
+     * userIdの重複をチェックしていないので、被ると投げられる
      */
     @ExceptionHandler(DataAccessException.class)
     public String exceptionHandler(Exception e, Model model) {

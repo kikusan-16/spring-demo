@@ -2,10 +2,7 @@ package com.example.demo.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +19,16 @@ public class MUser {
     private Integer gender;
     private Integer departmentId;
     private String role;
-    @Transient // O/R マッピングしないフィールド
+
+    // @Transient // O/R マッピングしないフィールド
+
+    // @ManyToOne 後者が自クラス Optional=trueはnullを許可する = left join. falseならinner join
+    @ManyToOne(optional = true)
+    // 結合先のkeyカラムを指定 このオブジェクトから結合先もinsert, updateするかを指定
+    @JoinColumn(insertable = false, updatable = false, name = "departmentId")
     private Department department;
-    @Transient
+
+    @OneToMany
+    @JoinColumn(insertable = false, updatable = false, name = "userId")
     private List<Salary> salaryList;
 }

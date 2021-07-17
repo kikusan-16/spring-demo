@@ -7,6 +7,9 @@
     <!-- CSS読込 -->
     <link rel="stylesheet"
           th:href="@{/css/user/list.css}">
+    <!-- JS読込 -->
+    <script th:src="@{/js/user/detail.js}" defer></script>
+
 </head>
 <body>
 <div layout:fragment="content">
@@ -60,6 +63,13 @@
             <!-- 更新ボタン -->
             <button class="btn btn-primary" type="submit" name="update">更新</button>
         </div>
+        <!-- RESTボタンエリア -->
+        <div class="text-center mt-2">
+            <!-- 削除ボタン -->
+            <button id="btn-delete" class="btn btn-danger" type="button">削除(REST)</button>
+            <!-- 更新ボタン -->
+            <button id="btn-update" class="btn btn-primary" type="button">更新(REST)</button>
+        </div>
         <!-- 給料情報 -->
         <!-- th:blockはifがtrueでなければ生成がされない -->
         <th:block th:if="*{salaryList != null and salaryList.size() > 0}">
@@ -75,7 +85,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="item:*{salaryList}">
-                    <td th:text="${item.yearMonth}"></td>
+                    <td th:text="${item.salaryKey.yearMonth}"></td>
                     <td th:text="${#numbers.formatInteger(item.salary,3,'COMMA')}"></td>
                 </tr>
                 </tbody>

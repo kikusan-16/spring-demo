@@ -6,6 +6,8 @@ import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,13 @@ public class UserServiceImpl implements UserService {
     /** ユーザー取得 */
     @Override
     public List<MUser> getUsers(MUser user) {
-        return repository.findAll();
+        // 検索条件
+        ExampleMatcher matcher = ExampleMatcher
+                .matching() // and条件
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Like句
+                .withIgnoreCase(); // 大文字・小文字の両方
+
+        return repository.findAll(Example.of(user, matcher));
     }
 
     /** ユーザー取得(1件) */
@@ -61,7 +69,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateUserOne(String userId, String password, String userName) {
+        // パスワード暗号化
+        String encryptPassword = encoder.encode(password);
 
+        repository.findById(userId).map(user -> {
+            user.setUserName(userName);
+            user.setPassword(encryptPassword);
+            return repository.save(user);
+        }).orElseThrow(() -> {
+            throw new DataAccessException("ユーザーが存在しない"){};
+        });
     }
 
     /** ユーザー削除(1件) */

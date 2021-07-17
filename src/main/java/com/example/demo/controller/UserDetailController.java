@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.form.UserDetailForm;
 import com.example.demo.model.MUser;
 import com.example.demo.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ public class UserDetailController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     /**
      * ユーザー詳細画面を表示
      * メールアドレスを正しく受け取るために正規表現を使用
@@ -26,10 +30,12 @@ public class UserDetailController {
     public String getUser(UserDetailForm form, Model model,
                           @PathVariable("userId") String userId) {
         MUser user = userService.getUserOne(userId);
-        user.setPassword(null);
+        user.setPassword(null); // デフォルトは空に
 
+        form = modelMapper.map(user, UserDetailForm.class);
+        form.setSalaryList(user.getSalaryList());
 
-
+        // Modelに登録
         model.addAttribute("userDetailForm", form);
 
         return "user/detail";

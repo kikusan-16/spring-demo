@@ -59,3 +59,18 @@ public class Sample {
 
 setterインジェクションもあるが、省略。  
 Springが推奨しているのはコンストラクタインジェクション。
+
+## プロジェクト内で実装したもの
+
+- Controller
+- Service
+- Repository
+- バインド&バリデーション
+- JPA: Entity
+- JPA: テーブル結合
+- トランザクション
+- SpringSecurity: ログイン
+- SpringSecurity: 認可
+- AOP
+- エラー処理
+- REST API
