@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/webjars/**")
                 .antMatchers("/css/**")
-                .antMatchers("/js/**");
+                .antMatchers("/js/**")
+                .antMatchers("/h2-console/**");
     }
 
     /** セキュリティの各種設定 */

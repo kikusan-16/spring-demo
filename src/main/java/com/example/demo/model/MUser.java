@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.List;
 @Data
 @Entity // jpaマッピング
 @Table(name = "m_user")
+@NoArgsConstructor
+@AllArgsConstructor
 public class MUser {
     @Id
     private String userId;

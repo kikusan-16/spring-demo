@@ -3,6 +3,9 @@ package com.example.demo.service.impl;
 import com.example.demo.model.MUser;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 @Service
 @Primary // インターフェイスを実装したクラスが複数あるとき、Primaryがついているものが優先でDIされる
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -24,6 +29,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    // 検索条件
+    ExampleMatcher matcher = ExampleMatcher
+            .matching() // and条件
+            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Like句
+            .withIgnoreCase(); // 大文字・小文字の両方
 
     /** ユーザー登録 */
     @Transactional // 宣言的トランザクション メソッド内はトランザクション扱いとなる
@@ -48,12 +59,6 @@ public class UserServiceImpl implements UserService {
     /** ユーザー取得 */
     @Override
     public List<MUser> getUsers(MUser user) {
-        // 検索条件
-        ExampleMatcher matcher = ExampleMatcher
-                .matching() // and条件
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Like句
-                .withIgnoreCase(); // 大文字・小文字の両方
-
         return repository.findAll(Example.of(user, matcher));
     }
 
