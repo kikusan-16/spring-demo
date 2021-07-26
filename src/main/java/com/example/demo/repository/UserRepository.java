@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
  * JPAリポジトリ<データモデルの型, 主キーの型>
  */
 public interface UserRepository extends JpaRepository<MUser, String> {
-    //    /**
+//    /**
 //     * ログインユーザー検索
 //     * @Query はJPQLで記述する。nativeQuery属性にtrueを指定すればSQLでもかける
 //     * :変数名 で埋め込みができる。 @Paramを使用すればパラメータ名と変数名を別にできる

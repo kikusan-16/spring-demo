@@ -36,7 +36,8 @@ public class SignupController {
     public String getSignup(Model model, Locale locale,
                             @ModelAttribute SignupForm form) {
         // 引数のModelでthymeleaf画面にAttributeをセットできる
-        // @ModelAttributeで model.addAttribute("signupForm", form); を自動化
+        // @ModelAttributeで model.addAttribute("signupForm", form); を自動化かつ、
+        //                   リクエストボディのバインド。Modelに該当オブジェクトがないとnewする。
         Map<String, Integer> genderMap = userApplicationService.getGenderMap(locale);
         model.addAttribute("genderMap", genderMap);
 
@@ -47,7 +48,7 @@ public class SignupController {
     public String postSignup(Model model, Locale locale,
                              @ModelAttribute @Validated(ValidGroupOrder.class) SignupForm form,
                              BindingResult bindingResult) {
-        // @ModelAttribute でformから送られたデータをFormクラスにセットする
+        // @ModelAttribute でformから送られたデータをFormクラスにセットする(バインド)
         // BindingResult でバリデーションエラーを探せる。
         // @Validated でバリデーションを実行する。GroupSequenceのinterfaceでバリデーション順序を指定できる
         if (bindingResult.hasErrors()) {

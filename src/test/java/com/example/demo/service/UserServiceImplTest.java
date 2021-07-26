@@ -1,35 +1,22 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Department;
 import com.example.demo.model.MUser;
-import com.example.demo.model.Salary;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.UserServiceImpl;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
-import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class UserServiceImplTest {
 
+    // モックするべきオブジェクトがDIできるように書いていないとテストできない。
     UserServiceImpl userService;
     UserRepository repository;
     PasswordEncoder encoder;
@@ -47,19 +34,13 @@ public class UserServiceImplTest {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Like句
                 .withIgnoreCase(); // 大文字・小文字の両方
         userService = new UserServiceImpl(repository, encoder, matcher);
-//        Mockito.when(repository.findById(userId)).thenReturn(
-//                Optional.ofNullable(user));
-//        Mockito.when(repository.save(user)).thenReturn(user);
-//        Mockito.doNothing().when(repository).deleteById(userId);
     }
 
     @AfterEach
-    void tearDown() {
-
-    }
+    void tearDown() {}
 
     @Test
-    void signupTest() {
+    void ユーザー登録() {
         MUser user = new MUser();
         user.setUserId(userId);
         when(repository.existsById(user.getUserId())).thenReturn(false);
@@ -71,7 +52,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void getUsersTest() {
+    void ユーザー一覧() {
         MUser user = new MUser();
         when(repository.findAll(Example.of(user, matcher)))
                 .thenReturn(List.of(

@@ -2,6 +2,8 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.MUser;
 import com.example.demo.service.UserService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +21,8 @@ import java.util.List;
  * UserDetailsServiceを実装するとSpringSecurityのログインを実装できる
  */
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService service;
