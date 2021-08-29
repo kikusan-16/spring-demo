@@ -5,6 +5,9 @@ import com.example.demo.model.MUser;
 import com.example.demo.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,33 +29,39 @@ public class UserListController {
 
     /** ユーザー一覧画面を表示 */
     @GetMapping("/list")
-    public String getUserList(@ModelAttribute UserListForm form, Model model) {
+    public String getUserList(@ModelAttribute UserListForm form, Model model,
+                              @PageableDefault(page = 0, size = 5, sort = "userId") Pageable pageable) {
         // formは必ずパラメータが空
 
         // formをMUserクラスに変換
         MUser user = modelMapper.map(form, MUser.class);
 
         // ユーザー検索
-        List<MUser> userList = userService.getUsers(user);
+        Page<MUser> userPage = userService.getUsers(user, pageable);
 
         // Modelに登録
-        model.addAttribute("userList", userList);
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("userList", userPage.getContent());
 
         return "user/list";
     }
 
-    /** ユーザー検索処理 */
+    /** ユーザー検索処理
+     * TODO: 検索時のページングが一覧に戻るようになっている
+     * */
     @PostMapping("/list")
-    public String postUserList(@ModelAttribute UserListForm form, Model model) {
+    public String postUserList(@ModelAttribute UserListForm form, Model model,
+                               @PageableDefault(page = 0, size = 5, sort = "userId") Pageable pageable) {
 
         // formをMUserクラスに変換
         MUser user = modelMapper.map(form, MUser.class);
 
         // ユーザー検索
-        List<MUser> userList = userService.getUsers(user);
+        Page<MUser> userPage = userService.getUsers(user, pageable);
 
         // Modelに登録
-        model.addAttribute("userList", userList);
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("userList", userPage.getContent());
 
         return "user/list";
     }

@@ -54,6 +54,34 @@
             </tr>
             </tbody>
         </table>
+        <nav>
+            <ul class="pagination">
+                <li th:if="${userPage.isFirst()}" class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </li>
+                <li th:unless="${userPage.isFirst()}" class="page-item">
+                    <a class="page-link" th:href="@{/user/list(page=${userPage.getNumber() - 1})}" aria-hidden="true">&laquo;</a>
+                </li>
+
+                <div th:each="i:${#numbers.sequence(0, userPage.getTotalPages() - 1)}">
+                    <li th:if="${i == userPage.getNumber()}" class="page-item disabled">
+                        <span class="page-link" th:text="${i + 1}"></span>
+                    </li>
+                    <li th:if="${i != userPage.getNumber()}" class="page-item">
+                        <a class="page-link" th:href="@{/user/list(page=${i})}" th:text="${i + 1}"></a>
+                    </li>
+                </div>
+
+                <li th:if="${userPage.isLast()}" class="page-item disabled">
+                    <span class="page-link" th:if="${userPage.isLast()}" aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </li>
+                <li th:unless="${userPage.isLast()}" class="page-item">
+                    <a class="page-link" th:href="@{/user/list(page=(${userPage.getNumber() + 1}))}">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 </body>

@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class UserServiceImplTest {
     PasswordEncoder encoder;
     ExampleMatcher matcher;
 
-    final String userId = "user@test.jp";
+    final String userId = "user999@test.jp";
 
     @BeforeEach
     void setUp() {
@@ -53,20 +53,17 @@ public class UserServiceImplTest {
 
     @Test
     void ユーザー一覧() {
+        Page<MUser> userPage = mock(Page.class);
+
         MUser user = new MUser();
-        when(repository.findAll(Example.of(user, matcher)))
-                .thenReturn(List.of(
-                    new MUser(),
-                    new MUser(),
-                    new MUser()
-                )
-        );
+        Pageable pageable = PageRequest.of(0,5);
+        when(repository.findAll(Example.of(user, matcher), pageable))
+                .thenReturn(userPage);
 
-        List<MUser> userList = userService.getUsers(user);
+        Page<MUser> page = userService.getUsers(user, pageable);
         // 戻り値を検証
-        assertEquals(3, userList.size());
+        assertEquals(page, userPage);
         // 呼び出しを検証
-        verify(repository, times(1)).findAll(Example.of(user, matcher));
+        verify(repository, times(1)).findAll(Example.of(user, matcher), pageable);
     }
-
 }

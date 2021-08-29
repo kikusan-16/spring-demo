@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.model.MUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public interface UserService {
     public void signup (MUser user);
 
     /** ユーザー取得 */
-    public List<MUser> getUsers(MUser user);
+    public Page<MUser> getUsers(MUser user, Pageable pageable);
 
     /** ユーザー取得(1件) */
     public MUser getUserOne(String userId);

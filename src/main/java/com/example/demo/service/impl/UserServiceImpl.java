@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +60,8 @@ public class UserServiceImpl implements UserService {
 
     /** ユーザー取得 */
     @Override
-    public List<MUser> getUsers(MUser user) {
-        return repository.findAll(Example.of(user, matcher));
+    public Page<MUser> getUsers(MUser user, Pageable pageable) {
+        return repository.findAll(Example.of(user, matcher), pageable);
     }
 
     /** ユーザー取得(1件) */

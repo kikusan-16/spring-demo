@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest // テストごとにロールバック、インメモリDBを使用する
 // schema.sql, data.sqlによって初期データ生成
 // 追加のSQLは@Sqlで指定
-@Sql(scripts = "classpath:/user-test.sql",
-        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+//@Sql(scripts = "classpath:/user-test.sql",
+//        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class UserRepositoryTest {
     @Autowired
     UserRepository repository;
@@ -35,13 +35,13 @@ public class UserRepositoryTest {
         repository.save(user);
         entityManager.flush();
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "m_user");
-        assertEquals(3, count);
+        assertEquals(13, count);
     }
 
     @Test
     @Transactional
     void 全件検索() {
         List<MUser> users = repository.findAll();
-        assertEquals(2, users.size());
+        assertEquals(12, users.size());
     }
 }

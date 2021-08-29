@@ -1,15 +1,15 @@
 version: '3'
 
 volumes:
-  v-demo:
+  spring-demo:
 
 services:
   db-demo:
     image: postgres
     ports:
-      - '25432:5432'
+      - '15432:5432'
     volumes:
-      - 'v-demo:/var/lib/postgresql/data'
+      - 'spring-demo:/var/lib/postgresql/data'
       - './dbinit:/docker-entrypoint-initdb.d'
     environment:
       - POSTGRES_USER=postgres
