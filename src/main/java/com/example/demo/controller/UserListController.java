@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.form.UserListForm;
 import com.example.demo.model.MUser;
 import com.example.demo.service.UserService;
+import com.example.demo.view.SampleExcel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.swing.*;
 import java.util.List;
 
 @Controller
@@ -65,5 +67,15 @@ public class UserListController {
 
         return "user/list";
     }
+
+    /** Excel出力 */
+    @GetMapping("/excel")
+    public SampleExcel writeUserExcel(SampleExcel excel){
+        // AbstractXlsxView を継承したクラスを引数に受け取り、値をセットして返却すると、excelがビルドされる
+        excel.addStaticAttribute("currentTime", new java.util.Date());
+        excel.addStaticAttribute("fileName","sampleExcel.xlsx");
+        return excel;
+    }
+
 
 }
